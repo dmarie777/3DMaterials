@@ -1,0 +1,16 @@
+{
+  "name": "3dmaterials",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sketch.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "three": "^0.166.1",
+    "vite": "^5.3.3"
+  }
+}
