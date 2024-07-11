@@ -63,8 +63,17 @@ renderer.setSize(size.width, size.height)
 const controls = new OrbitControls( camera, renderer.domElement )
 controls.enableDamping = true
 
+const clock = new THREE.Clock;
+
 function animate() {
     requestAnimationFrame(animate)
+
+    const elapsedTime = clock.getElapsedTime();
+    //Animations
+    plane.rotation.y = 0.5 * elapsedTime; 
+    torus.rotation.y = 0.5 * elapsedTime; 
+    sphere.rotation.y = 0.5 * elapsedTime; 
+
     controls.update()
     renderer.render(scene, camera)
 }
