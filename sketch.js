@@ -3,29 +3,46 @@ import { OrbitControls } from 'three/examples/jsm/Addons.js';
 
 const canvas = document.querySelector('.webgl')
 
-const scene = new THREE.Scene();
-
 const size = {
     width: window.innerWidth,
     height: window.innerHeight
 }
 
+//Scene
+const scene = new THREE.Scene();
+
+//Texture
+const textureLoader = new THREE.TextureLoader() 
+const doorColorTexture = textureLoader.load('./static/textures/door/color.jpg')
+const doorAlphaTexture = textureLoader.load('./static/textures/door/alpha.jpg')
+const doorAmbientOclusionTexture = textureLoader.load('./static/textures/door/ambientOcclusion.jpg')
+const doorHeightTexture = textureLoader.load('./static/textures/door/height.jpg')
+const doorNormalTexture = textureLoader.load('./static/textures/door/normal.jpg')
+const doorRoughnessTexture = textureLoader.load('./static/textures/door/roughness.jpg')
+const matcapTexture = textureLoader.load('./static/textures/matcaps/1.png')
+const gradientTexture = textureLoader.load('./static/textures/door/3.jpg')
+
 //Material
-const material = new THREE.MeshBasicMaterial()
+const basicMaterial = new THREE.MeshBasicMaterial(
+    {
+        map:doorColorTexture,
+        side: THREE.DoubleSide,
+    }
+)
 
 //Objects
 const sphere = new THREE.Mesh(
     new THREE.SphereGeometry(0.5, 16, 16),
-    material
+    basicMaterial
 )
 const plane = new THREE.Mesh(
     new THREE.PlaneGeometry(1,1),
-    material
+    basicMaterial
 )
 plane.position.x = 1.5;
 const torus = new THREE.Mesh(
     new THREE.TorusGeometry(0.3, .2, 16, 34),
-    material
+    basicMaterial
 )
 torus.position.x = -1.5;
 
