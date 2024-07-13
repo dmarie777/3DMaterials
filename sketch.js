@@ -14,7 +14,7 @@ const size = {
 const scene = new THREE.Scene();
 
 //Texture
-const textureLoader = new THREE.TextureLoader() 
+const textureLoader = new THREE.TextureLoader()
 const doorColorTexture = textureLoader.load('./static/textures/door/color.jpg')
 const doorAlphaTexture = textureLoader.load('./static/textures/door/alpha.jpg')
 const doorAmbientOclusionTexture = textureLoader.load('./static/textures/door/ambientOcclusion.jpg')
@@ -24,10 +24,13 @@ const doorRoughnessTexture = textureLoader.load('./static/textures/door/roughnes
 const matcapTexture = textureLoader.load('./static/textures/matcaps/1.png')
 const gradientTexture = textureLoader.load('./static/textures/door/3.jpg')
 
+//Color space
+doorColorTexture.colorSpace = THREE.SRGBColorSpace
+
 //HDR Texture
 const loader = new RGBELoader();
 loader.load(hdrTextureURL, function(texture) {
-    texture.mapping = THREE.EquirectangularRefractionMapping;
+    texture.mapping = THREE.EquirectangularReflectionMapping;
     scene.background = texture;
 } )
 
@@ -69,21 +72,25 @@ const renderer = new THREE.WebGLRenderer(
     }
 )
 
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.5;
+renderer.setSize(size.width, size.height)
+
 //resize event
 window.addEventListener('resize', () => {
-    //Update sizes 
+    //Update sizes
     size.width = window.innerWidth
     size.height = window.innerHeight
 
-    //Update camera 
+    //Update camera
     camera.aspect = size.width / size.height
     camera.updateProjectionMatrix()
 
-    //Update renderer 
+    //Update renderer
     renderer.setSize(size.width, size.height)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 })
-renderer.setSize(size.width, size.height)
 
 //Add orbit controls
 const controls = new OrbitControls( camera, renderer.domElement )
@@ -96,9 +103,9 @@ function animate() {
 
     const elapsedTime = clock.getElapsedTime();
     //Animations
-    plane.rotation.y = 0.5 * elapsedTime; 
-    torus.rotation.y = 0.5 * elapsedTime; 
-    sphere.rotation.y = 0.5 * elapsedTime; 
+    plane.rotation.y = 0.5 * elapsedTime;
+    torus.rotation.y = 0.5 * elapsedTime;
+    sphere.rotation.y = 0.5 * elapsedTime;
 
     controls.update()
     renderer.render(scene, camera)
