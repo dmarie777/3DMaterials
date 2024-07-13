@@ -1,7 +1,9 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 
 const canvas = document.querySelector('.webgl')
+const hdrTextureURL = './static/textures/environmentMap/2k.hdr'
 
 const size = {
     width: window.innerWidth,
@@ -21,6 +23,13 @@ const doorNormalTexture = textureLoader.load('./static/textures/door/normal.jpg'
 const doorRoughnessTexture = textureLoader.load('./static/textures/door/roughness.jpg')
 const matcapTexture = textureLoader.load('./static/textures/matcaps/1.png')
 const gradientTexture = textureLoader.load('./static/textures/door/3.jpg')
+
+//HDR Texture
+const loader = new RGBELoader();
+loader.load(hdrTextureURL, function(texture) {
+    texture.mapping = THREE.EquirectangularRefractionMapping;
+    scene.background = texture;
+} )
 
 //Material
 const basicMaterial = new THREE.MeshBasicMaterial(
